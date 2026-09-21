@@ -1,0 +1,68 @@
+.gx-wordsearch-layout {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.gx-wordsearch-grid {
+    border-collapse: collapse;
+    user-select: none;
+    touch-action: none;
+}
+
+.gx-wordsearch-cell {
+    width: 2rem;
+    height: 2rem;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: 600;
+    font-family: "SFMono-Regular", Consolas, monospace;
+    border: 1px solid #e5e7eb;
+    cursor: pointer;
+}
+
+.gx-wordsearch-cell.gx-selecting {
+    background: #eef2ff;
+}
+
+.gx-wordsearch-cell.gx-found {
+    background: #bbf7d0;
+    color: #14532d;
+}
+
+.gx-wordsearch-sidebar {
+    min-width: 160px;
+}
+
+.gx-wordsearch-words-title {
+    font-size: 1rem;
+    margin: 0 0 0.5rem;
+}
+
+.gx-wordsearch-word-list {
+    list-style: none;
+    margin: 0 0 1rem;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.gx-wordsearch-word-list li {
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    background: #f3f4f6;
+    font-size: 0.9rem;
+}
+
+.gx-wordsearch-word-list li.gx-found {
+    background: #bbf7d0;
+    text-decoration: line-through;
+    color: #14532d;
+}
+
+@media (prefers-color-scheme: dark) {
+    .gx-wordsearch-cell { border-color: #374151; }
+    .gx-wordsearch-word-list li { background: #1f2937; color: #e5e7eb; }
+}

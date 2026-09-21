@@ -1,0 +1,35 @@
+{% load i18n %}
+<div class="gx-block gx-wordsearch">
+    <div class="gx-sr-only" aria-live="assertive" role="alert" id="gx-wordsearch-announce"></div>
+
+    <h2 class="gx-title">{{ display_name }}</h2>
+    {% if instructions %}<p class="gx-instructions">{{ instructions }}</p>{% endif %}
+    <p class="gx-instructions">{% trans "Find every word hidden in the grid. This game is for practice and isn't graded." %}</p>
+
+    {% if has_words %}
+    <div class="gx-wordsearch-layout">
+        <table class="gx-wordsearch-grid" id="gx-wordsearch-grid" role="presentation" style="--gx-grid-size: {{ grid_size }};">
+            {% for row in grid_rows %}
+            <tr>
+                {% for letter in row %}<td class="gx-wordsearch-cell" data-row="{{ forloop.parentloop.counter0 }}" data-col="{{ forloop.counter0 }}">{{ letter }}</td>{% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+
+        <div class="gx-wordsearch-sidebar">
+            <h3 class="gx-wordsearch-words-title">{% trans "Words to find" %}</h3>
+            <ul class="gx-wordsearch-word-list" id="gx-wordsearch-word-list">
+                {% for entry in placed_words %}
+                <li data-word="{{ entry.word }}" data-cells="{{ entry.cells_attr }}">{{ entry.word }}</li>
+                {% endfor %}
+            </ul>
+            {% if timer_enabled %}<div class="gx-status" id="gx-wordsearch-timer">0:00</div>{% endif %}
+            {% if best_time_seconds %}<div class="gx-status">{% trans "Best time:" %} {{ best_time_seconds }}s</div>{% endif %}
+        </div>
+    </div>
+
+    <div class="gx-status-banner" id="gx-wordsearch-banner"></div>
+    {% else %}
+    <p class="gx-instructions">{% trans "This game has no words configured yet." %}</p>
+    {% endif %}
+</div>

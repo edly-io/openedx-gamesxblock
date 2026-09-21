@@ -1,0 +1,48 @@
+{% load i18n %}
+<div class="gx-block gx-matching" data-max-attempts="{{ max_attempts }}" data-attempts="{{ attempts }}">
+    <div class="gx-sr-only" aria-live="assertive" role="alert" id="gx-matching-announce"></div>
+
+    <h2 class="gx-title">{{ display_name }}</h2>
+    {% if instructions %}<p class="gx-instructions">{{ instructions }}</p>{% endif %}
+    <p class="gx-instructions">{% trans "Connect each term on the left with its matching definition on the right, then submit to see your results." %}</p>
+
+    <div class="gx-status-banner" id="gx-matching-banner"></div>
+
+    {% if has_pairs %}
+    <div class="gx-board gx-matching-board" id="gx-matching-board">
+        <div class="gx-matching-column gx-matching-column-left" id="gx-matching-terms">
+            {% for item in term_items %}
+            <div class="gx-matching-box" data-card-id="{{ item.card_id }}" data-side="term" role="button" tabindex="0" aria-pressed="false">
+                {% if item.image %}<img class="gx-matching-box-image" src="{{ item.image }}" alt="">{% endif %}
+                <span class="gx-matching-box-text">{{ item.text }}</span>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="gx-matching-column gx-matching-column-right" id="gx-matching-definitions">
+            {% for item in definition_items %}
+            <div class="gx-matching-box" data-tag="{{ item.tag }}" data-side="definition" role="button" tabindex="0" aria-pressed="false">
+                {% if item.image %}<img class="gx-matching-box-image" src="{{ item.image }}" alt="">{% endif %}
+                <span class="gx-matching-box-text">{{ item.text }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="gx-footer">
+        <span class="gx-status" id="gx-matching-progress"></span>
+        <div>
+            <button type="button" class="gx-btn gx-btn-secondary" id="gx-matching-reset">{% trans "Clear connections" %}</button>
+            <button type="button" class="gx-btn" id="gx-matching-submit" disabled>{% trans "Submit" %}</button>
+        </div>
+    </div>
+    <p class="gx-status" id="gx-matching-attempts">
+        {% if max_attempts %}
+            {% blocktrans %}Attempts used: {{ attempts }} / {{ max_attempts }}{% endblocktrans %}
+        {% else %}
+            {% trans "Unlimited attempts" %}
+        {% endif %}
+    </p>
+    {% else %}
+    <p class="gx-instructions">{% trans "This game has no pairs configured yet." %}</p>
+    {% endif %}
+</div>

@@ -1,0 +1,63 @@
+.gx-cloze-passage {
+    line-height: 2.4;
+    font-size: 1.05rem;
+    padding: 1rem 0;
+}
+
+.gx-cloze-text-segment {
+    white-space: pre-wrap;
+}
+
+.gx-cloze-blank {
+    display: inline-block;
+    min-width: 90px;
+    padding: 0.15rem 0.6rem;
+    margin: 0 0.15rem;
+    border: 2px dashed #9ca3af;
+    border-radius: 6px;
+    background: #f9fafb;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.gx-cloze-blank.gx-filled {
+    border-style: solid;
+    background: #eef2ff;
+    border-color: #1e3a8a;
+}
+
+.gx-cloze-bank {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: #f9fafb;
+    min-height: 3rem;
+}
+
+.gx-cloze-word {
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    background: #fff;
+    border: 2px solid #d1d5db;
+    font-size: 0.95rem;
+}
+
+.gx-cloze-word:focus-visible {
+    outline: 3px solid #1e3a8a;
+    outline-offset: 2px;
+}
+
+.gx-cloze-word[aria-pressed="true"] {
+    border-color: #1e3a8a;
+    background: #eef2ff;
+}
+
+@media (prefers-color-scheme: dark) {
+    .gx-cloze-blank { background: #1f2937; border-color: #4b5563; }
+    .gx-cloze-bank { background: #111827; border-color: #374151; }
+    .gx-cloze-word { background: #1f2937; border-color: #374151; color: #e5e7eb; }
+}

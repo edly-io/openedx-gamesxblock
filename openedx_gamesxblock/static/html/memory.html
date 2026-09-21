@@ -1,0 +1,29 @@
+{% load i18n %}
+<div class="gx-block gx-memory">
+    <div class="gx-sr-only" aria-live="assertive" role="alert" id="gx-memory-announce"></div>
+
+    <h2 class="gx-title">{{ display_name }}</h2>
+    {% if instructions %}<p class="gx-instructions">{{ instructions }}</p>{% endif %}
+    <p class="gx-instructions">{% trans "Flip two cards at a time to find matching pairs. This game is for practice and isn't graded." %}</p>
+
+    {% if has_pairs %}
+    <div class="gx-status-banner" id="gx-memory-banner"></div>
+
+    <script type="application/json" id="gx-memory-pair-lookup">{{ tag_pair_lookup_json|safe }}</script>
+    <div class="gx-memory-grid" id="gx-memory-grid">
+        {% for card in cards %}
+        <button type="button" class="gx-memory-card" data-tag="{{ card.tag }}" aria-label="{% trans 'Card, face down' %}">
+            <span class="gx-memory-card-inner">
+                <span class="gx-memory-card-back" aria-hidden="true">?</span>
+                <span class="gx-memory-card-front">{{ card.text }}</span>
+            </span>
+        </button>
+        {% endfor %}
+    </div>
+
+    {% if timer_enabled %}<div class="gx-status" id="gx-memory-timer">0:00</div>{% endif %}
+    {% if best_time_seconds %}<div class="gx-status">{% trans "Best time:" %} {{ best_time_seconds }}s</div>{% endif %}
+    {% else %}
+    <p class="gx-instructions">{% trans "This game has no pairs configured yet." %}</p>
+    {% endif %}
+</div>

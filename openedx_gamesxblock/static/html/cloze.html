@@ -1,0 +1,37 @@
+{% load i18n %}
+<div class="gx-block gx-cloze" data-max-attempts="{{ max_attempts }}" data-attempts="{{ attempts }}">
+    <div class="gx-sr-only" aria-live="assertive" role="alert" id="gx-cloze-announce"></div>
+
+    <h2 class="gx-title">{{ display_name }}</h2>
+    {% if instructions %}<p class="gx-instructions">{{ instructions }}</p>{% endif %}
+    <p class="gx-instructions">{% trans "Drag each word from the word bank into the correct blank, then submit." %}</p>
+
+    <div class="gx-status-banner" id="gx-cloze-banner"></div>
+
+    {% if has_blanks %}
+    <div class="gx-board gx-cloze-passage" id="gx-cloze-passage">
+        {% for segment in segments %}
+            {% if segment.type == "text" %}<span class="gx-cloze-text-segment">{{ segment.value }}</span>{% else %}<span class="gx-drop-target gx-cloze-blank" data-target-id="{{ segment.token }}" role="button" tabindex="0" aria-label="{% trans 'Blank' %}">&nbsp;</span>{% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="gx-cloze-bank" id="gx-cloze-bank" aria-label="{% trans 'Word bank' %}">
+        {% for word in word_bank %}
+        <span class="gx-drag-item gx-cloze-word" data-id="word-{{ forloop.counter0 }}" data-word="{{ word }}">{{ word }}</span>
+        {% endfor %}
+    </div>
+
+    <div class="gx-footer">
+        <span class="gx-status" id="gx-cloze-attempts">
+            {% if max_attempts %}
+                {% blocktrans %}Attempts used: {{ attempts }} / {{ max_attempts }}{% endblocktrans %}
+            {% else %}
+                {% trans "Unlimited attempts" %}
+            {% endif %}
+        </span>
+        <button type="button" class="gx-btn" id="gx-cloze-submit" disabled>{% trans "Submit" %}</button>
+    </div>
+    {% else %}
+    <p class="gx-instructions">{% trans "This game has no blanks configured yet." %}</p>
+    {% endif %}
+</div>

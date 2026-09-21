@@ -1,0 +1,132 @@
+{% load i18n %}
+<script type="application/json" id="gx-studio-initial-data">{{ initial_data_json|safe }}</script>
+<div class="gx-studio" id="gx-studio">
+    <div class="gx-studio-field">
+        <label for="gx-studio-display-name">{% trans "Display name" %}</label>
+        <input type="text" id="gx-studio-display-name" value="{{ display_name }}">
+    </div>
+
+    <div class="gx-studio-field">
+        <label for="gx-studio-game-type">{% trans "Game type" %}</label>
+        <select id="gx-studio-game-type">
+            {% for type in game_types %}
+            <option value="{{ type }}" {% if type == game_type %}selected{% endif %}>{{ type }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="gx-studio-field">
+        <label for="gx-studio-instructions">{% trans "Instructions (optional)" %}</label>
+        <textarea id="gx-studio-instructions" rows="2">{{ instructions }}</textarea>
+    </div>
+
+    <div class="gx-studio-field gx-studio-checkbox">
+        <label><input type="checkbox" id="gx-studio-is-shuffled" {% if is_shuffled %}checked{% endif %}> {% trans "Shuffle content on each render" %}</label>
+    </div>
+
+    <fieldset class="gx-studio-fieldset" id="gx-studio-graded-fields">
+        <legend>{% trans "Grading" %}</legend>
+        <div class="gx-studio-field">
+            <label for="gx-studio-weight">{% trans "Points (weight)" %}</label>
+            <input type="number" id="gx-studio-weight" min="0" step="0.5" value="{{ weight }}">
+        </div>
+        <div class="gx-studio-field">
+            <label for="gx-studio-max-attempts">{% trans "Max attempts (0 = unlimited)" %}</label>
+            <input type="number" id="gx-studio-max-attempts" min="0" step="1" value="{{ max_attempts }}">
+        </div>
+    </fieldset>
+
+    <div class="gx-studio-field gx-studio-checkbox" id="gx-studio-timer-field">
+        <label><input type="checkbox" id="gx-studio-timer-enabled" {% if timer_enabled %}checked{% endif %}> {% trans "Show a completion timer" %}</label>
+    </div>
+
+    <!-- Matching content -->
+    <section class="gx-studio-section" data-game-section="matching">
+        <h3>{% trans "Matching pairs" %}</h3>
+        <div id="gx-studio-cards" class="gx-studio-repeatable" data-template="gx-card-row-template"></div>
+        <button type="button" class="gx-btn gx-btn-secondary" data-add="cards">{% trans "+ Add pair" %}</button>
+    </section>
+
+    <!-- Sequencing content -->
+    <section class="gx-studio-section" data-game-section="sequencing">
+        <h3>{% trans "Steps, in correct order" %}</h3>
+        <div id="gx-studio-sequence-items" class="gx-studio-repeatable" data-template="gx-sequence-row-template"></div>
+        <button type="button" class="gx-btn gx-btn-secondary" data-add="sequence_items">{% trans "+ Add step" %}</button>
+    </section>
+
+    <!-- Cloze content -->
+    <section class="gx-studio-section" data-game-section="cloze">
+        <h3>{% trans "Passage" %}</h3>
+        <p class="gx-studio-hint">{% trans "Wrap each blank in double curly braces with a unique token, e.g. The capital of France is {{blank1}}." %}</p>
+        <textarea id="gx-studio-cloze-text" rows="4">{{ cloze_text }}</textarea>
+        <h3>{% trans "Blanks" %}</h3>
+        <div id="gx-studio-cloze-blanks" class="gx-studio-repeatable" data-template="gx-blank-row-template"></div>
+        <button type="button" class="gx-btn gx-btn-secondary" data-add="cloze_blanks">{% trans "+ Add blank" %}</button>
+    </section>
+
+    <!-- Word search content -->
+    <section class="gx-studio-section" data-game-section="word_search">
+        <h3>{% trans "Words" %}</h3>
+        <div id="gx-studio-wordsearch-words" class="gx-studio-repeatable" data-template="gx-word-row-template"></div>
+        <button type="button" class="gx-btn gx-btn-secondary" data-add="wordsearch_words">{% trans "+ Add word" %}</button>
+    </section>
+
+    <!-- Memory content -->
+    <section class="gx-studio-section" data-game-section="memory">
+        <h3>{% trans "Pairs to match" %}</h3>
+        <div id="gx-studio-memory-pairs" class="gx-studio-repeatable" data-template="gx-memory-row-template"></div>
+        <button type="button" class="gx-btn gx-btn-secondary" data-add="memory_pairs">{% trans "+ Add pair" %}</button>
+    </section>
+
+    <div class="gx-studio-actions">
+        <button type="button" class="gx-btn" id="gx-studio-save">{% trans "Save" %}</button>
+        <span class="gx-studio-status" id="gx-studio-status"></span>
+    </div>
+</div>
+
+<!-- Row templates, cloned by studio.js -->
+<template id="gx-card-row-template">
+    <div class="gx-studio-row" data-row>
+        <input type="text" data-field="term" placeholder="{% trans 'Term' %}">
+        <input type="text" data-field="term_image" placeholder="{% trans 'Term image URL (optional)' %}">
+        <button type="button" class="gx-studio-upload" data-upload-for="term_image">{% trans "Upload" %}</button>
+        <input type="text" data-field="definition" placeholder="{% trans 'Definition' %}">
+        <input type="text" data-field="definition_image" placeholder="{% trans 'Definition image URL (optional)' %}">
+        <button type="button" class="gx-studio-upload" data-upload-for="definition_image">{% trans "Upload" %}</button>
+        <button type="button" class="gx-studio-remove" aria-label="{% trans 'Remove' %}">&times;</button>
+    </div>
+</template>
+
+<template id="gx-sequence-row-template">
+    <div class="gx-studio-row" data-row>
+        <span class="gx-studio-row-index"></span>
+        <input type="text" data-field="text" placeholder="{% trans 'Step text' %}">
+        <button type="button" class="gx-studio-move-up">&uarr;</button>
+        <button type="button" class="gx-studio-move-down">&darr;</button>
+        <button type="button" class="gx-studio-remove" aria-label="{% trans 'Remove' %}">&times;</button>
+    </div>
+</template>
+
+<template id="gx-blank-row-template">
+    <div class="gx-studio-row" data-row>
+        <input type="text" data-field="token" placeholder="{% trans 'Token (matches {{token}} in passage)' %}">
+        <input type="text" data-field="answers" placeholder="{% trans 'Accepted answers, comma-separated' %}">
+        <input type="text" data-field="distractors" placeholder="{% trans 'Distractor words, comma-separated (optional)' %}">
+        <button type="button" class="gx-studio-remove" aria-label="{% trans 'Remove' %}">&times;</button>
+    </div>
+</template>
+
+<template id="gx-word-row-template">
+    <div class="gx-studio-row" data-row>
+        <input type="text" data-field="word" placeholder="{% trans 'Word' %}">
+        <button type="button" class="gx-studio-remove" aria-label="{% trans 'Remove' %}">&times;</button>
+    </div>
+</template>
+
+<template id="gx-memory-row-template">
+    <div class="gx-studio-row" data-row>
+        <input type="text" data-field="a" placeholder="{% trans 'Card A' %}">
+        <input type="text" data-field="b" placeholder="{% trans 'Card B (its match)' %}">
+        <button type="button" class="gx-studio-remove" aria-label="{% trans 'Remove' %}">&times;</button>
+    </div>
+</template>

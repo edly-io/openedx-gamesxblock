@@ -1,0 +1,51 @@
+.gx-sequencing-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.gx-sequencing-item {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.7rem 0.9rem;
+    border: 2px solid #d1d5db;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.gx-sequencing-item:focus-visible {
+    outline: 3px solid #1e3a8a;
+    outline-offset: 2px;
+}
+
+.gx-sequencing-handle {
+    color: #9ca3af;
+    cursor: grab;
+    font-size: 1rem;
+    letter-spacing: -2px;
+}
+
+.gx-sequencing-text {
+    flex: 1;
+}
+
+.gx-sequencing-controls {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.gx-btn-small {
+    padding: 0.25rem 0.6rem;
+    font-size: 0.85rem;
+}
+
+.gx-sequencing-item.gx-correct { border-color: #16a34a; background: #ecfdf3; }
+.gx-sequencing-item.gx-incorrect { border-color: #dc2626; background: #fef2f2; }
+
+@media (prefers-color-scheme: dark) {
+    .gx-sequencing-item { background: #1f2937; border-color: #374151; color: #e5e7eb; }
+}

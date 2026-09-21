@@ -1,0 +1,153 @@
+/* Shared visual primitives used across every game: board layout, buttons,
+   status banner, and the SVG arrow-connector styling. Kept separate from
+   each game's own CSS so the common look-and-feel only needs updating once. */
+
+.gx-block {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #1a1a2e;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.gx-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem;
+}
+
+.gx-instructions {
+    color: #4a4a5a;
+    margin: 0 0 1rem;
+}
+
+.gx-board {
+    position: relative;
+}
+
+.gx-btn {
+    display: inline-block;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 0.6rem 1.4rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    background: #1e3a8a;
+    color: #fff;
+    transition: background 0.15s ease, opacity 0.15s ease;
+}
+
+.gx-btn:hover:not(:disabled) { background: #16306e; }
+
+.gx-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.gx-btn-secondary {
+    background: #e5e7eb;
+    color: #1a1a2e;
+}
+
+.gx-btn-secondary:hover:not(:disabled) { background: #d1d5db; }
+
+.gx-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1.25rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.gx-status {
+    font-size: 0.9rem;
+    color: #4a4a5a;
+}
+
+.gx-status-banner {
+    display: none;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.gx-status-banner.gx-visible { display: block; }
+
+.gx-status-banner.gx-banner-success {
+    background: #ecfdf3;
+    color: #027a48;
+    border: 1px solid #abefc6;
+}
+
+.gx-status-banner.gx-banner-warning {
+    background: #fffaeb;
+    color: #b54708;
+    border: 1px solid #fedf89;
+}
+
+.gx-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Arrow connector overlay (matching game) */
+
+.gx-arrow-overlay { z-index: 1; }
+
+.gx-arrow-line {
+    stroke: #9ca3af;
+    stroke-width: 2.5;
+    transition: stroke 0.2s ease;
+}
+
+.gx-arrow-pending { stroke: #6b7280; }
+.gx-arrow-correct { stroke: #16a34a; }
+.gx-arrow-incorrect { stroke: #dc2626; }
+
+.gx-arrow-dashed {
+    stroke: #dc2626;
+    stroke-dasharray: 6 5;
+    opacity: 0.8;
+}
+
+/* Drag-and-drop shared states (sequencing/cloze) */
+
+.gx-drag-item {
+    cursor: grab;
+}
+
+.gx-drag-item.gx-dragging {
+    opacity: 0.4;
+}
+
+.gx-drop-target {
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.gx-drop-target.gx-filled {
+    cursor: pointer;
+}
+
+.gx-correct { background: #ecfdf3 !important; border-color: #16a34a !important; }
+.gx-incorrect { background: #fef2f2 !important; border-color: #dc2626 !important; }
+
+.gx-reveal-answer {
+    font-size: 0.85rem;
+    color: #b54708;
+    margin-top: 0.15rem;
+}
+
+@media (prefers-color-scheme: dark) {
+    .gx-block { color: #e5e7eb; }
+    .gx-instructions { color: #9ca3af; }
+    .gx-status { color: #9ca3af; }
+}

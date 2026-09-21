@@ -1,0 +1,38 @@
+{% load i18n %}
+<div class="gx-block gx-sequencing" data-max-attempts="{{ max_attempts }}" data-attempts="{{ attempts }}">
+    <div class="gx-sr-only" aria-live="assertive" role="alert" id="gx-sequencing-announce"></div>
+
+    <h2 class="gx-title">{{ display_name }}</h2>
+    {% if instructions %}<p class="gx-instructions">{{ instructions }}</p>{% endif %}
+    <p class="gx-instructions">{% trans "Drag the steps into the correct order, or use the Move up / Move down buttons, then submit." %}</p>
+
+    <div class="gx-status-banner" id="gx-sequencing-banner"></div>
+
+    {% if has_items %}
+    <ol class="gx-board gx-sequencing-list" id="gx-sequencing-list">
+        {% for item in items %}
+        <li class="gx-sequencing-item gx-drag-item" data-id="{{ item.item_id }}" tabindex="0">
+            <span class="gx-sequencing-handle" aria-hidden="true">&#8942;&#8942;</span>
+            <span class="gx-sequencing-text">{{ item.text }}</span>
+            <span class="gx-sequencing-controls">
+                <button type="button" class="gx-btn gx-btn-secondary gx-btn-small" data-action="move-up" aria-label="{% trans 'Move up' %}">&uarr;</button>
+                <button type="button" class="gx-btn gx-btn-secondary gx-btn-small" data-action="move-down" aria-label="{% trans 'Move down' %}">&darr;</button>
+            </span>
+        </li>
+        {% endfor %}
+    </ol>
+
+    <div class="gx-footer">
+        <span class="gx-status" id="gx-sequencing-attempts">
+            {% if max_attempts %}
+                {% blocktrans %}Attempts used: {{ attempts }} / {{ max_attempts }}{% endblocktrans %}
+            {% else %}
+                {% trans "Unlimited attempts" %}
+            {% endif %}
+        </span>
+        <button type="button" class="gx-btn" id="gx-sequencing-submit">{% trans "Submit" %}</button>
+    </div>
+    {% else %}
+    <p class="gx-instructions">{% trans "This game has no steps configured yet." %}</p>
+    {% endif %}
+</div>
